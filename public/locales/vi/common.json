@@ -1,0 +1,64 @@
+{
+  "menu": {
+    "news": "TIN TỨC",
+    "news_items": {
+      "cooperation_info": "Thông tin hợp tác đối ngoại",
+      "training_programs": "Chương trình đào tạo quốc tế",
+      "projects": "Các dự án, đề tài hợp tác quốc tế",
+      "networks": "Các mạng lưới hợp tác đối ngoại"
+    },
+    "videos": "VIDEO THUYẾT TRÌNH",
+    "publications": "HỢP TÁC XUẤT BẢN",
+    "publications_items": {
+      "domestic": "Ấn phẩm xuất bản tại Việt Nam",
+      "international": "Ấn phẩm xuất bản tại Quốc tế"
+    },
+    "library": "THƯ VIỆN",
+    "library_items": {
+      "documents": "Tài liệu Toạ đàm/hội thảo",
+      "photos": "Album ảnh Toạ đàm/hội thảo"
+    }
+  },
+  "footer": {
+    "conference_name": "Hội nghị khoa học quốc tế về Khoa học Xã hội, Nhân văn và Giáo dục lần thứ 2",
+    "quick_links": "Liên kết nhanh",
+    "contact": "Thông tin liên hệ",
+    "address": "Địa chỉ",
+    "address_line1": "Số 1 Đại Cồ Việt",
+    "address_line2": "Quận Hai Bà Trưng, Hà Nội, Việt Nam",
+    "phone": "Điện thoại",
+    "email": "Email",
+    "follow_us": "Theo dõi chúng tôi",
+    "copyright": "© 2024 SSHE2025. Bản quyền được bảo lưu.",
+    "organized_by": "Đơn vị tổ chức",
+    "hanoi_university": "Trường Đại học Sư Phạm Hà Nội",
+    "subscribe": "Đăng ký nhận tin",
+    "subscribe_desc": "Cập nhật tin tức và sự kiện mới nhất",
+    "subscribe_button": "Đăng ký",
+    "email_placeholder": "Nhập email của bạn"
+  },
+  "welcome": "Chào mừng đến với SSHE2025",
+  "description": "Hội nghị khoa học quốc tế về Khoa học Xã hội, Nhân văn và Giáo dục lần thứ 2",
+  "change_language": "Thay đổi ngôn ngữ",
+  "news": {
+    "latest": "Tin tức mới nhất",
+    "view_all": "Xem tất cả",
+    "all": "Tất cả",
+    "related": "Tin tức liên quan",
+    "categories": {
+      "news": "Tin tức & Thông báo",
+      "cooperation": "Hợp tác quốc tế",
+      "projects": "Dự án nghiên cứu",
+      "networks": "Mạng lưới đối tác",
+      "training": "Chương trình đào tạo"
+    }
+  },
+  "contact": {
+    "address": {
+      "street": "136 Xuân Thủy, Cầu Giấy",
+      "city": "Hà Nội, Việt Nam"
+    },
+    "phone": "+84 24 3754 7823",
+    "email": "sshe2025@hnue.edu.vn"
+  }
+} 

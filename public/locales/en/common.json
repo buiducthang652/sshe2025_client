@@ -1,0 +1,64 @@
+{
+  "menu": {
+    "news": "NEWS",
+    "news_items": {
+      "cooperation_info": "International Cooperation Information",
+      "training_programs": "International Training Programs",
+      "projects": "International Cooperation Projects",
+      "networks": "International Cooperation Networks"
+    },
+    "videos": "PRESENTATION VIDEOS",
+    "publications": "PUBLICATIONS",
+    "publications_items": {
+      "domestic": "Publications in Vietnam",
+      "international": "International Publications"
+    },
+    "library": "LIBRARY",
+    "library_items": {
+      "documents": "Seminar Documents",
+      "photos": "Seminar Photo Albums"
+    }
+  },
+  "footer": {
+    "conference_name": "The 2nd International Conference on Social Sciences, Humanities and Education",
+    "quick_links": "Quick Links",
+    "contact": "Contact Information",
+    "address": "Address",
+    "address_line1": "No. 1 Dai Co Viet Street",
+    "address_line2": "Hai Ba Trung District, Hanoi, Vietnam",
+    "phone": "Phone",
+    "email": "Email",
+    "follow_us": "Follow Us",
+    "copyright": "© 2024 SSHE2025. All rights reserved.",
+    "organized_by": "Organized by",
+    "hanoi_university": "Hanoi University of Science and Technology",
+    "subscribe": "Subscribe to Newsletter",
+    "subscribe_desc": "Stay updated with our latest news and events",
+    "subscribe_button": "Subscribe",
+    "email_placeholder": "Enter your email"
+  },
+  "welcome": "Welcome to SSHE2025",
+  "description": "The 2nd International Conference on Social Sciences, Humanities and Education",
+  "change_language": "Change language",
+  "news": {
+    "latest": "Latest News",
+    "view_all": "View All",
+    "all": "All",
+    "related": "Related News",
+    "categories": {
+      "news": "News & Announcements",
+      "cooperation": "International Cooperation",
+      "projects": "Research Projects",
+      "networks": "Partner Networks",
+      "training": "Training Programs"
+    }
+  },
+  "contact": {
+    "address": {
+      "street": "136 Xuan Thuy, Cau Giay",
+      "city": "Hanoi, Vietnam"
+    },
+    "phone": "+84 24 3754 7823",
+    "email": "sshe2025@hnue.edu.vn"
+  }
+} 
