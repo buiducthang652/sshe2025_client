@@ -86,7 +86,7 @@ export default function NewsDetail({ id }) {
 
   const relatedNews = [
     {
-      id: 2,
+      documentId: 2,
       title: 'Hợp tác với Đại học Quốc gia Singapore',
       excerpt: 'Ký kết thỏa thuận hợp tác nghiên cứu và trao đổi học thuật với Đại học Quốc gia Singapore trong lĩnh vực an toàn học đường.',
       date: '2024-03-10',
@@ -94,7 +94,7 @@ export default function NewsDetail({ id }) {
       category: 'cooperation'
     },
     {
-      id: 3,
+      documentId: 3,
       title: 'Dự án nghiên cứu An toàn học đường',
       excerpt: 'Khởi động dự án nghiên cứu về các giải pháp nâng cao an toàn học đường tại Việt Nam với sự tham gia của các chuyên gia quốc tế.',
       date: '2024-03-05',
@@ -102,7 +102,7 @@ export default function NewsDetail({ id }) {
       category: 'projects'
     },
     {
-      id: 4,
+      documentId: 4,
       title: 'Mạng lưới các trường đại học Đông Nam Á',
       excerpt: 'Thành lập mạng lưới hợp tác giữa các trường đại học Đông Nam Á về nghiên cứu an toàn và sức khỏe học đường.',
       date: '2024-03-01',
@@ -165,10 +165,10 @@ export default function NewsDetail({ id }) {
             <div className="grid grid-cols-1 gap-8 min-[40rem]:grid-cols-2 min-[48rem]:grid-cols-3 min-[64rem]:grid-cols-4">
               {relatedNews.map((item) => (
                 <article 
-                  key={item.id}
+                  key={item.documentId}
                   className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
                 >
-                  <Link href={`/${lng}/news/${item.id}`}>
+                  <Link href={`/${lng}/news/${item.documentId}`}>
                     <div className="relative h-48 rounded-t-lg overflow-hidden">
                       <Image
                         src={item.image}

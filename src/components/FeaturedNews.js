@@ -10,7 +10,7 @@ export default function FeaturedNews() {
 
   const featuredNews = {
     main: {
-      id: 1,
+      documentId: 1,
       title: 'Hội nghị Khoa học Quốc tế SSHE2025',
       excerpt: 'Thông báo về việc tổ chức Hội nghị Khoa học Quốc tế về An toàn, An ninh và Giáo dục Y tế trong trường học 2025',
       date: '2024-03-15',
@@ -19,7 +19,7 @@ export default function FeaturedNews() {
     },
     secondary: [
       {
-        id: 2,
+        documentId: 2,
         title: 'Thông báo về việc nộp bài tham luận',
         excerpt: 'Hướng dẫn chi tiết về quy trình, thể lệ và thời hạn nộp bài tham luận',
         date: '2024-03-10',
@@ -27,7 +27,7 @@ export default function FeaturedNews() {
         category: 'Hướng dẫn'
       },
       {
-        id: 3,
+        documentId: 3,
         title: 'Chương trình Hội nghị dự kiến',
         excerpt: 'Thông tin về chương trình dự kiến của Hội nghị',
         date: '2024-03-05',
@@ -45,7 +45,7 @@ export default function FeaturedNews() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Main Featured News */}
           <div className="relative h-[500px] group">
-            <Link href={`/${lng}/news/${featuredNews.main.id}`}>
+            <Link href={`/${lng}/news/${featuredNews.main.documentId}`}>
               <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition-colors duration-300 z-10" />
               <Image
                 src={featuredNews.main.image}
@@ -77,8 +77,8 @@ export default function FeaturedNews() {
           {/* Secondary News */}
           <div className="grid grid-cols-1 gap-8">
             {featuredNews.secondary.map((news) => (
-              <div key={news.id} className="relative h-[235px] group">
-                <Link href={`/${lng}/news/${news.id}`}>
+              <div key={news.documentId} className="relative h-[235px] group">
+                <Link href={`/${lng}/news/${news.documentId}`}>
                   <div className="absolute inset-0 bg-black/50 group-hover:bg-black/60 transition-colors duration-300 z-10" />
                   <Image
                     src={news.image}

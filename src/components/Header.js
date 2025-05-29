@@ -166,7 +166,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Menu */}
-          <nav className="hidden lg:!flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-4">
             {menuItems.map((item, index) => (
               <div key={index} className="relative submenu-container group">
                 <Link

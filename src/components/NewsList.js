@@ -1,15 +1,23 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { useNews } from '@/hooks/useNews'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect } from 'react'
 
 export default function NewsList({ category = null }) {
   const pathname = usePathname()
   const lng = pathname.split('/')[1]
   const [translations, setTranslations] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const { news, pagination, loading } = useNews({
+    locale: lng,
+    pageSize: 12,
+    page,
+    ...(category && { category })
+  })
 
   useEffect(() => {
     async function loadTranslations() {
@@ -37,85 +45,14 @@ export default function NewsList({ category = null }) {
     return value || key
   }
 
-  const newsItems = [
-    {
-      id: 1,
-      title: 'Hội nghị Khoa học Quốc tế SSHE2025',
-      excerpt: 'Thông báo về việc tổ chức Hội nghị Khoa học Quốc tế về An toàn, An ninh và Giáo dục Y tế trong trường học năm 2025 (SSHE2025).',
-      date: '2024-03-15',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'news'
-    },
-    {
-      id: 2,
-      title: 'Hợp tác với Đại học Quốc gia Singapore',
-      excerpt: 'Ký kết thỏa thuận hợp tác nghiên cứu và trao đổi học thuật với Đại học Quốc gia Singapore trong lĩnh vực an toàn học đường.',
-      date: '2024-03-10',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'cooperation'
-    },
-    {
-      id: 3,
-      title: 'Dự án nghiên cứu An toàn học đường',
-      excerpt: 'Khởi động dự án nghiên cứu về các giải pháp nâng cao an toàn học đường tại Việt Nam với sự tham gia của các chuyên gia quốc tế.',
-      date: '2024-03-05',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'projects'
-    },
-    {
-      id: 4,
-      title: 'Mạng lưới các trường đại học Đông Nam Á',
-      excerpt: 'Thành lập mạng lưới hợp tác giữa các trường đại học Đông Nam Á về nghiên cứu an toàn và sức khỏe học đường.',
-      date: '2024-03-01',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'networks'
-    },
-    {
-      id: 5,
-      title: 'Hợp tác quốc tế trong nghiên cứu',
-      excerpt: 'Mở rộng quan hệ hợp tác nghiên cứu với các đối tác từ Nhật Bản và Hàn Quốc trong lĩnh vực giáo dục sức khỏe.',
-      date: '2024-02-28',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'cooperation'
-    },
-    {
-      id: 6,
-      title: 'Dự án phát triển tài liệu đào tạo',
-      excerpt: 'Triển khai dự án xây dựng bộ tài liệu đào tạo về an toàn học đường theo tiêu chuẩn quốc tế.',
-      date: '2024-02-25',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'projects'
-    },
-    {
-      id: 7,
-      title: 'Mở rộng mạng lưới đối tác châu Âu',
-      excerpt: 'Thiết lập quan hệ hợp tác mới với các tổ chức nghiên cứu và trường đại học tại châu Âu.',
-      date: '2024-02-20',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'networks'
-    },
-    {
-      id: 8,
-      title: 'Thông báo về hội thảo trực tuyến',
-      excerpt: 'Tổ chức chuỗi hội thảo trực tuyến về các chủ đề an toàn và sức khỏe học đường với sự tham gia của chuyên gia quốc tế.',
-      date: '2024-02-15',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
-      category: 'news'
-    }
-  ]
-
-  const filteredNews = category 
-    ? newsItems.filter(item => item.category === category)
-    : newsItems
-
   const categoryTitles = {
-    news: t('news.categories.news'),
     cooperation: t('news.categories.cooperation'),
+    training: t('news.categories.training'),
     projects: t('news.categories.projects'),
     networks: t('news.categories.networks')
   }
 
-  if (isLoading) {
+  if (loading || isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="animate-pulse space-y-8">
@@ -154,15 +91,15 @@ export default function NewsList({ category = null }) {
         </div>
 
         <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4">
-          {filteredNews.map((item) => (
+          {news.map((item) => (
             <article 
               key={item.id}
               className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              <Link href={`/${lng}/news/${item.id}`}>
+              <Link href={`/${lng}/news/${item.documentId}`}>
                 <div className="relative h-40 rounded-t-lg overflow-hidden">
                   <Image
-                    src={item.image}
+                    src={`https://sshe2025.hnue.edu.vn/v2${item.thumbnail?.url}`}
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -173,7 +110,7 @@ export default function NewsList({ category = null }) {
                   />
                   <div className="absolute top-4 left-4">
                     <span className="inline-block bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
-                      {categoryTitles[item.category]}
+                      {categoryTitles[item.category] || t('news.categories.news')}
                     </span>
                   </div>
                 </div>
@@ -182,10 +119,10 @@ export default function NewsList({ category = null }) {
                     {item.title}
                   </h3>
                   <p className="text-gray-600 text-sm line-clamp-2">
-                    {item.excerpt}
+                    {item.excerpt || item.description}
                   </p>
                   <time className="text-sm text-gray-500">
-                    {new Date(item.date).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(item.updatedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'
@@ -196,6 +133,30 @@ export default function NewsList({ category = null }) {
             </article>
           ))}
         </div>
+
+        {pagination && pagination.pageCount > 1 && (
+          <div className="mt-12 flex justify-center">
+            <div className="inline-flex rounded-md shadow-sm">
+              {Array.from({ length: pagination.pageCount }, (_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setPage(i + 1)}
+                  className={`relative inline-flex items-center px-4 py-2 text-sm font-medium ${
+                    i === 0 ? 'rounded-l-md' : ''
+                  } ${
+                    i === pagination.pageCount - 1 ? 'rounded-r-md' : ''
+                  } ${
+                    page === i + 1
+                      ? 'z-10 bg-blue-600 text-white'
+                      : 'bg-white text-gray-500 hover:bg-gray-50'
+                  } border border-gray-300`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
