@@ -5,6 +5,7 @@ import { useNews } from '@/hooks/useNews'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { buildImageUrl, NEWS_MENU_CONFIG } from '../config/constants'
 
 export default function NewsList({ category = null }) {
   const pathname = usePathname()
@@ -52,6 +53,11 @@ export default function NewsList({ category = null }) {
     networks: t('news.categories.networks')
   }
 
+  // Lọc các menu items dựa trên cấu hình
+  const filteredCategories = Object.entries(categoryTitles).filter(([key]) => 
+    NEWS_MENU_CONFIG.menuItems[key]
+  )
+
   if (loading || isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -78,7 +84,7 @@ export default function NewsList({ category = null }) {
             >
               {t('news.all')}
             </Link>
-            {Object.entries(categoryTitles).map(([key, value]) => (
+            {filteredCategories.map(([key, value]) => (
               <Link
                 key={key}
                 href={key === 'news' ? `/${lng}/news` : `/${lng}/news/${key}`}
@@ -99,7 +105,7 @@ export default function NewsList({ category = null }) {
               <Link href={`/${lng}/news/${item.documentId}`}>
                 <div className="relative h-40 rounded-t-lg overflow-hidden">
                   <Image
-                    src={`https://sshe2025.hnue.edu.vn/v2${item.thumbnail?.url}`}
+                    src={buildImageUrl(item.thumbnail?.url)}
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -122,7 +128,7 @@ export default function NewsList({ category = null }) {
                     {item.excerpt || item.description}
                   </p>
                   <time className="text-sm text-gray-500">
-                    {new Date(item.updatedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(Math.max(new Date(item.ngay_dang || 0), new Date(item.updatedAt || 0), new Date(item.publishedAt || 0))).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'

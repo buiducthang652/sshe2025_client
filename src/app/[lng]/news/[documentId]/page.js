@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import axiosInstance from '@/services/axios'
+import { buildImageUrl } from '../../../../config/constants'
 
 export default function NewsDetailPage({ params: { lng, documentId } }) {
   const pathname = usePathname()
@@ -14,6 +15,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [category, setCategory] = useState(null)
+  const [relatedArticles, setRelatedArticles] = useState([])
   const [categories, setCategories] = useState([
     {
       id: 1,
@@ -25,16 +27,16 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
       name: 'news.categories.cooperation',
       slug: 'cooperation'
     },
-    {
-      id: 3,
-      name: 'news.categories.training', 
-      slug: 'training'
-    },
-    {
-      id: 4,
-      name: 'news.categories.projects',
-      slug: 'projects'
-    },
+    // {
+    //   id: 3,
+    //   name: 'news.categories.training', 
+    //   slug: 'training'
+    // },
+    // {
+    //   id: 4,
+    //   name: 'news.categories.projects',
+    //   slug: 'projects'
+    // },
     {
       id: 5,
       name: 'news.categories.networks',
@@ -64,18 +66,36 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
         setLoading(true)
         setError(null)
         
-        // Call API directly using axiosInstance
-        const params = new URLSearchParams({
-          locale: lng,
-          populate: '*'
+        const response = await axiosInstance.get(`/news/${documentId}`, {
+          params: {
+            populate: '*'
+          }
         })
         
-        const data = await axiosInstance.get(`/news/${documentId}?${params.toString()}`)
-        setArticle(data.data)
+        setArticle(response.data)
         
-        // Set category based on article data
-        if (data.data?.category) {
-          setCategory(data.data.category)
+        if (response.data?.danhmuc) {
+          setCategory(response.data.danhmuc)
+          
+          // Fetch related articles
+          try {
+            console.log('Fetching related articles for category:', response.data.danhmuc)
+            const relatedResponse = await axiosInstance.get(`/news`, {
+              params: {
+                populate: '*',
+                'filters[danhmuc][$eq]': response.data.danhmuc,
+                'filters[documentId][$ne]': documentId,
+                'pagination[limit]': 3,
+                'sort[0]': 'publishedAt:desc'
+              }
+            })
+            console.log('Related articles response:', relatedResponse)
+            if (relatedResponse?.data) {
+              setRelatedArticles(relatedResponse.data)
+            }
+          } catch (relatedErr) {
+            console.error('Error fetching related articles:', relatedErr)
+          }
         }
       } catch (err) {
         console.error('Error fetching article:', err)
@@ -85,7 +105,6 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
         setLoading(false)
       }
     }
-
     if (documentId) {
       fetchArticle()
     }
@@ -264,7 +283,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
                   </svg>
                 </li>
                 <li>
-                  <span className="text-gray-700 font-medium truncate max-w-xs sm:max-w-sm lg:max-w-md">
+                  <span className="text-gray-700 font-medium truncate block max-w-[200px] sm:max-w-[300px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[600px]">
                     {article.title}
                   </span>
                 </li>
@@ -316,7 +335,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
               {article.thumbnail?.url && (
                 <div className="relative h-64 sm:h-80 lg:h-96 overflow-hidden">
                   <Image
-                    src={`https://sshe2025.hnue.edu.vn/v2${article.thumbnail.url}`}
+                    src={buildImageUrl(article.thumbnail.url)}
                     alt={article.title}
                     fill
                     className="object-cover"
@@ -347,7 +366,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
                     <svg className="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    {new Date(article.updatedAt || article.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(article.ngay_dang || article.updatedAt || article.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
@@ -375,7 +394,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
 
               {/* Article Content */}
               <div className="px-6 sm:px-8 pb-8">
-                {article.contents && (
+                {(lng === 'en' ? article.contents_en : article.contents) && (
                   <div
                     className="prose prose-lg max-w-none 
                              prose-headings:text-gray-900 prose-headings:font-bold
@@ -388,7 +407,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
                              prose-img:rounded-lg prose-img:shadow-md
                              prose-hr:border-gray-200
                              prose-table:text-sm"
-                    dangerouslySetInnerHTML={{ __html: article.contents }}
+                    dangerouslySetInnerHTML={{ __html: lng === 'en' ? article.contents_en : article.contents }}
                   />
                 )}
               </div>
@@ -416,7 +435,7 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
                 <div>
                   <dt className="text-sm font-medium text-gray-500 mb-1">{t('news.published')}</dt>
                   <dd className="text-sm text-gray-700">
-                    {new Date(article.updatedAt || article.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(article.ngay_dang || article.updatedAt || article.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       weekday: 'long',
                       year: 'numeric',
                       month: 'long',
@@ -457,6 +476,43 @@ export default function NewsDetailPage({ params: { lng, documentId } }) {
                 ))}
               </div>
             </div>
+
+            {/* Related Articles */}
+            {relatedArticles && relatedArticles.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-lg p-6 mt-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('news.related_articles')}</h3>
+                <div className="space-y-4">
+                  {relatedArticles.map((article) => (
+                    <Link
+                      key={article.id}
+                      href={`/${lng}/news/${article.id}`}
+                      className="block group"
+                    >
+                      <div className="flex items-start space-x-4">
+                        {article.thumbnail && (
+                          <div className="relative w-20 h-20 flex-shrink-0">
+                            <Image
+                              src={buildImageUrl(article.thumbnail.formats?.thumbnail?.url || article.thumbnail.url)}
+                              alt={article.title}
+                              fill
+                              className="object-cover rounded-lg"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-medium text-gray-900 group-hover:text-blue-600 line-clamp-2 mb-1">
+                            {article.title}
+                          </h4>
+                          <p className="text-sm text-gray-500">
+                            {new Date(article.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US')}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
           </aside>
         </div>
       </main>

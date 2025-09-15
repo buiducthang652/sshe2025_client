@@ -1,12 +1,13 @@
 import axios from 'axios';
+import { API_CONFIG } from '../config/constants';
 
-const TOKEN = 'ebf165ddd037bcee9cfcf7e2720f59235c6cb9cbfc653bba8cd135e69bfb5ac0c64fcef5e5cea73a14380773a5f0414f4c9d3fcf54b24219de44bbf9b77984aa01fdcae88654913fffa26205479b710d9589e30d25735eeea847f1b0c50937bae0528cf29264acd8ddbc2fea45c2abbd8a43ec37b1b7cc010efec710330bbe8a';
+const TOKEN = 'c0ebf0767ff01731313ccc7da779abdc28b4b3562c2f04d06b000976a790662853865438ef7aab167a78be1dac5cdfbe1255bad146657fb19ac7da0bbce28e505e61c08f80b2aecb13f1b8f0e06a65895bf9e759d70f036ad77ad5f791f0261214b44fd6f09ebcc49405e8c6dfb189d28044190fb60c750cb7fb494b3c8796f7';
 
 const axiosInstance = axios.create({
   baseURL: 'https://sshe2025.hnue.edu.vn/v2/api',
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${TOKEN}`,
   },
 });
 
@@ -17,6 +18,20 @@ axiosInstance.interceptors.request.use(
     if (!config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${TOKEN}`;
     }
+
+    // Get locale from URL path
+    const locale = typeof window !== 'undefined'
+      ? window.location.pathname.split('/')[1]
+      : 'vi';
+
+    // Add locale to query params if not already present
+    if (!config.params?.locale) {
+      config.params = {
+        ...config.params,
+        'locale': locale
+      };
+    }
+
     return config;
   },
   (error) => {

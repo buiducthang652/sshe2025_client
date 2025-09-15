@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getBanners } from '../services/banner.service';
 
-export const useBanner = (locale = 'vi') => {
+export const useBanner = () => {
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ export const useBanner = (locale = 'vi') => {
       try {
         setLoading(true);
         setError(null);
-        const response = await getBanners(locale);
+        const response = await getBanners();
         setBanners(response.data);
       } catch (err) {
         setError(err.message || 'Error fetching banners');
@@ -22,7 +22,7 @@ export const useBanner = (locale = 'vi') => {
     };
 
     fetchBanners();
-  }, [locale]);
+  }, []);
 
   return {
     banners,

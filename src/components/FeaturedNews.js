@@ -64,7 +64,7 @@ export default function FeaturedNews() {
                   {featuredNews.main.excerpt}
                 </p>
                 <time className="text-gray-300 text-sm">
-                  {new Date(featuredNews.main.date).toLocaleDateString('vi-VN', {
+                  {new Date(Math.max(new Date(featuredNews.main.ngay_dang || 0), new Date(featuredNews.main.updatedAt || 0), new Date(featuredNews.main.publishedAt || 0), new Date(featuredNews.main.date || 0))).toLocaleDateString('vi-VN', {
                     day: 'numeric',
                     month: 'long',
                     year: 'numeric'
@@ -94,7 +94,7 @@ export default function FeaturedNews() {
                       {news.title}
                     </h3>
                     <time className="text-gray-300 text-sm">
-                      {new Date(news.date).toLocaleDateString('vi-VN', {
+                      {new Date(Math.max(new Date(news.ngay_dang || 0), new Date(news.updatedAt || 0), new Date(news.publishedAt || 0), new Date(news.date || 0))).toLocaleDateString('vi-VN', {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric'

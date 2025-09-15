@@ -1,5 +1,7 @@
 {
   "menu": {
+    "home": "HOME",
+    "about": "ABOUT",
     "news": "NEWS",
     "news_items": {
       "cooperation_info": "International Cooperation Information",
@@ -15,30 +17,36 @@
     },
     "library": "LIBRARY",
     "library_items": {
-      "documents": "Seminar Documents",
-      "photos": "Seminar Photo Albums"
-    }
+      "documents": "Conference Documents",
+      "photos": "Conference Photo Albums"
+    },
+    "categories": "Categories"
   },
   "footer": {
-    "conference_name": "The 2nd International Conference on Social Sciences, Humanities and Education",
-    "quick_links": "Quick Links",
-    "contact": "Contact Information",
-    "address": "Address",
-    "address_line1": "No. 1 Dai Co Viet Street",
-    "address_line2": "Hai Ba Trung District, Hanoi, Vietnam",
-    "phone": "Phone",
-    "email": "Email",
-    "follow_us": "Follow Us",
-    "copyright": "© 2024 SSHE2025. All rights reserved.",
+    "conference_name": "International Scientific Conference",
+    "conference_description": "Social Sciences, Humanities, and Education in the Context of Digital Transformation",
     "organized_by": "Organized by",
-    "hanoi_university": "Hanoi University of Science and Technology",
-    "subscribe": "Subscribe to Newsletter",
-    "subscribe_desc": "Stay updated with our latest news and events",
-    "subscribe_button": "Subscribe",
-    "email_placeholder": "Enter your email"
+    "hanoi_university": "Hanoi National University of Education",
+    "publisher": "Organizing Unit: Nha Xuat Ban Dai Hoc Su Pham Ha Noi",
+    "follow_us": "Follow us",
+    "quick_links": "Quick links",
+    "menu": {
+      "news": "NEWS",
+      "videos": "PRESENTATION VIDEOS",
+      "publications": "PUBLISHING COOPERATION",
+      "library": "LIBRARY"
+    },
+    "contact": "Contact Information",
+    "address": {
+      "street": "136 Xuan Thuy, Cau Giay",
+      "city": "Hanoi, Vietnam"
+    },
+    "phone": "+84 559 325 815",
+    "email": "sshe2025@hnue.edu.vn",
+    "copyright": "© 2025 Information Technology Center - Hanoi National University of Education"
   },
   "welcome": "Welcome to SSHE2025",
-  "description": "The 2nd International Conference on Social Sciences, Humanities and Education",
+  "description": "Social Sciences, Humanities, and Education in the Context of Digital Transformation",
   "change_language": "Change language",
   "breadcrumb": {
     "home": "Home",
@@ -50,8 +58,9 @@
     "all": "All",
     "all_news": "All News",
     "related": "Related News",
+    "related_articles": "Related Articles",
     "read_more": "Read More",
-    "description": "The 2nd International Conference on Social Sciences, Humanities and Education",
+    "description": "Social Sciences, Humanities, and Education in the Context of Digital Transformation",
     "no_articles": "No articles found",
     "no_search_results": "No search results found",
     "search_placeholder": "Search news...",
@@ -77,12 +86,142 @@
       "training": "Training Programs"
     }
   },
+  "videos": {
+    "title": "PRESENTATION VIDEOS",
+    "subtitle": "Collection of presentation videos from researchers",
+    "description": "Choose video information by field and author",
+    "showing": "Showing",
+    "showing_results": "Showing results",
+    "videos": "videos",
+    "year": "Year",
+    "watch_now": "Watch Now",
+    "no_videos": "No videos found",
+    "try_different_filter": "Try different filters to find suitable videos",
+    "view_details": "View Details",
+    "clear_filters": "Clear filters",
+    "no_results": "No videos found",
+    "try_different_filters": "Try different filters to find suitable videos",
+    "error": "An error occurred while loading videos",
+    "filter": {
+      "year": "Filter by Year",
+      "school": "Filter by School"
+    },
+    "years": {
+      "all": "All Years",
+      "2025": "Year 2025",
+      "2024": "Year 2024",
+      "2023": "Year 2023",
+      "2022": "Year 2022",
+      "2021": "Year 2021",
+      "2020": "Year 2020",
+      "2019": "Year 2019",
+      "2018": "Year 2018"
+    },
+    "schools": {
+      "all": "All Schools",
+      "hnue": "Hanoi National University of Education",
+      "dshphn": "Hanoi National University of Education",
+      "dsp": "Other Schools",
+      "others": "Other Schools"
+    }
+  },
+  "publications": {
+    "title": "COLLABORATION PUBLICATIONS",
+    "subtitle": "Collection of publications and collaborative articles between the University and international partners",
+    "domestic_title": "PUBLICATIONS IN VIETNAM",
+    "domestic_subtitle": "Scientific publications published in prestigious domestic publishers and journals",
+    "international_title": "INTERNATIONAL PUBLICATIONS",
+    "international_subtitle": "Research works published in prestigious international journals",
+    "view_details": "View Details",
+    "back_to_list": "Back to Publications",
+    "partner_organizations": "International Partner Organization Logos",
+    "partner_description": "International partners who have collaborated with us on publication projects",
+    "error": "An error occurred while loading publications",
+    "not_found": "Publication not found",
+    "no_publications": "No publications found",
+    "try_different_filters": "Try different filters to find publications",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    },
+    "categories": {
+      "all": "All",
+      "domestic": "Publications in Vietnam",
+      "international": "International Publications",
+      "books": "Academic Books",
+      "journals": "Journal Articles",
+      "proceedings": "Conference Proceedings"
+    },
+    "detail": {
+      "info": "Publication Information",
+      "category": "Category",
+      "title": "Publication Details",
+      "authors": "Authors",
+      "published_in": "Published in",
+      "publication_date": "Publication Date",
+      "abstract": "Abstract",
+      "keywords": "Keywords",
+      "doi": "DOI",
+      "isbn": "ISBN",
+      "publisher": "Publisher",
+      "pages": "Pages",
+      "language": "Language",
+      "download": "Download",
+      "cite": "Cite",
+      "share": "Share",
+      "related_publications": "Related Publications",
+      "browse_categories": "Browse Categories",
+      "last_updated": "Last Updated"
+    }
+  },
   "contact": {
     "address": {
       "street": "136 Xuan Thuy, Cau Giay",
       "city": "Hanoi, Vietnam"
     },
-    "phone": "+84 24 3754 7823",
+    "phone": "+84 559 325 815",
     "email": "sshe2025@hnue.edu.vn"
+  },
+  "library": {
+    "title": "Document Library",
+    "subtitle": "Archive of documents and photos from conference events",
+    "categories": {
+      "all": "All",
+      "documents": "Documents",
+      "photos": "Photo Albums"
+    },
+    "download": "Download",
+    "downloadAll": "Download All",
+    "downloading": "Downloading...",
+    "viewAlbum": "View album",
+    "backToAlbums": "Back to Albums",
+    "albumNotFound": "Album not found",
+    "noPhotos": "No photo albums",
+    "noPhotosDesc": "There are no photo albums in this category yet",
+    "fileName": "File name",
+    "fileType": "File type",
+    "photoCount": "photos",
+    "fileSize": "File size",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    },
+    "noDocuments": "No documents",
+    "noDocumentsDesc": "No documents available in the library"
+  },
+  "common": {
+    "loading": "Loading...",
+    "read_more": "Read More",
+    "home": "Home",
+    "about": "About",
+    "no_content": "No content available"
+  },
+  "home": {
+    "about_title": "About",
+    "about_description": "Social Sciences, Humanities, and Education in the Context of Digital Transformation"
   }
 } 

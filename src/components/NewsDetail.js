@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { buildImageUrl } from '../config/constants'
 
 export default function NewsDetail({ id }) {
   const pathname = usePathname()
@@ -71,7 +72,7 @@ export default function NewsDetail({ id }) {
       </ul>
     `,
     date: '2024-03-15',
-    image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
+    image: buildImageUrl('/uploads/638835622634233856_395d92386f.webp'),
     category: 'news',
     author: 'Ban tổ chức SSHE2025'
   }
@@ -90,7 +91,7 @@ export default function NewsDetail({ id }) {
       title: 'Hợp tác với Đại học Quốc gia Singapore',
       excerpt: 'Ký kết thỏa thuận hợp tác nghiên cứu và trao đổi học thuật với Đại học Quốc gia Singapore trong lĩnh vực an toàn học đường.',
       date: '2024-03-10',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
+      image: buildImageUrl('/uploads/638835622634233856_395d92386f.webp'),
       category: 'cooperation'
     },
     {
@@ -98,7 +99,7 @@ export default function NewsDetail({ id }) {
       title: 'Dự án nghiên cứu An toàn học đường',
       excerpt: 'Khởi động dự án nghiên cứu về các giải pháp nâng cao an toàn học đường tại Việt Nam với sự tham gia của các chuyên gia quốc tế.',
       date: '2024-03-05',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
+      image: buildImageUrl('/uploads/638835622634233856_395d92386f.webp'),
       category: 'projects'
     },
     {
@@ -106,7 +107,7 @@ export default function NewsDetail({ id }) {
       title: 'Mạng lưới các trường đại học Đông Nam Á',
       excerpt: 'Thành lập mạng lưới hợp tác giữa các trường đại học Đông Nam Á về nghiên cứu an toàn và sức khỏe học đường.',
       date: '2024-03-01',
-      image: 'https://sshe2025.hnue.edu.vn/v2/uploads/638835622634233856_395d92386f.webp',
+      image: buildImageUrl('/uploads/638835622634233856_395d92386f.webp'),
       category: 'networks'
     }
   ]
@@ -141,8 +142,8 @@ export default function NewsDetail({ id }) {
               {newsItem.title}
             </h1>
             <div className="flex items-center gap-4 text-sm text-gray-600">
-              <time dateTime={newsItem.date}>
-                {new Date(newsItem.date).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+              <time dateTime={newsItem.ngay_dang || newsItem.updatedAt || newsItem.publishedAt}>
+                {new Date(Math.max(new Date(newsItem.ngay_dang || 0), new Date(newsItem.updatedAt || 0), new Date(newsItem.publishedAt || 0))).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                   day: 'numeric',
                   month: 'long',
                   year: 'numeric'

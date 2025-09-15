@@ -3,15 +3,22 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { buildImageUrl } from '../../../../config/constants'
+import { useNews } from '@/hooks/useNews'
+import { NEWS_MENU_CONFIG } from '@/config/constants'
 
 export default function TrainingPage({ params: { lng } }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [translations, setTranslations] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-  const [news, setNews] = useState([])
-  const [category, setCategory] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const { news, pagination, loading } = useNews({
+    pageSize: 12,
+    page,
+    danhmuc: 'chuongtrinhdaotao'
+  })
 
   useEffect(() => {
     async function loadTranslations() {
@@ -30,34 +37,11 @@ export default function TrainingPage({ params: { lng } }) {
   }, [lng])
 
   useEffect(() => {
-    async function fetchTrainingNews() {
-      try {
-        setLoading(true)
-        const response = await fetch('/api/categories/kzcxogzzpzfy3z855dep6oqr')
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch training news')
-        }
-        
-        const result = await response.json()
-        const categoryData = result.data
-        
-        // Filter news by locale
-        const filteredNews = categoryData.tin_tucs?.filter(item => item.locale === lng) || []
-        
-        setCategory(categoryData)
-        setNews(filteredNews)
-      } catch (err) {
-        console.error('Error fetching training news:', err)
-        setNews([])
-        setCategory(null)
-      } finally {
-        setLoading(false)
-      }
+    // Nếu trang này bị ẩn trong cấu hình, chuyển hướng về trang news chính
+    if (!NEWS_MENU_CONFIG.menuItems.training) {
+      router.replace(`/${lng}/news`)
     }
-
-    fetchTrainingNews()
-  }, [lng])
+  }, [router, lng])
 
   const t = (key) => {
     if (!translations) return key
@@ -91,7 +75,7 @@ export default function TrainingPage({ params: { lng } }) {
       <div className="container mx-auto px-4">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {category?.name || t('news.categories.training')}
+            {news.length > 0 ? news[0].categoryName : t('news.categories.training')}
           </h1>
           <div className="flex gap-4 flex-wrap">
             <Link 
@@ -137,7 +121,7 @@ export default function TrainingPage({ params: { lng } }) {
                 <div className="relative h-40 rounded-t-lg overflow-hidden">
                   {item.thumbnail?.url ? (
                     <Image
-                      src={`https://sshe2025.hnue.edu.vn/v2${item.thumbnail.url}`}
+                      src={buildImageUrl(item.thumbnail.url)}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -153,7 +137,7 @@ export default function TrainingPage({ params: { lng } }) {
                   )}
                   <div className="absolute top-4 left-4">
                     <span className="inline-block bg-purple-600 text-white text-sm px-3 py-1 rounded-full">
-                      {category?.name || t('news.categories.training')}
+                      {t('news.categories.training')}
                     </span>
                   </div>
                 </div>
@@ -165,7 +149,7 @@ export default function TrainingPage({ params: { lng } }) {
                     {item.description}
                   </p>
                   <time className="text-sm text-gray-500">
-                    {new Date(item.updatedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(item.ngay_dang || item.updatedAt || item.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'

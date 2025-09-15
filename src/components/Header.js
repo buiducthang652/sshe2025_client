@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -57,7 +58,32 @@ export default function Header() {
     return value || key
   }
 
+  const isActive = (href) => {
+    if (href === `/${lng}`) {
+      return pathname === `/${lng}`
+    }
+    return pathname.startsWith(href) && href !== `/${lng}`
+  }
+
   const menuItems = [
+    {
+      title: 'menu.home',
+      href: `/${lng}`,
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )
+    },
+    {
+      title: 'menu.about',
+      href: `/${lng}/about`,
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    },
     {
       title: 'menu.news',
       href: `/${lng}/news`,
@@ -68,8 +94,6 @@ export default function Header() {
       ),
       submenu: [
         { title: 'menu.news_items.cooperation_info', href: `/${lng}/news/cooperation` },
-        { title: 'menu.news_items.training_programs', href: `/${lng}/news/training` },
-        { title: 'menu.news_items.projects', href: `/${lng}/news/projects` },
         { title: 'menu.news_items.networks', href: `/${lng}/news/networks` }
       ]
     },
@@ -147,7 +171,7 @@ export default function Header() {
   }
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
         ${isScrolled ? 'bg-white/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}
       `}
@@ -155,14 +179,19 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link 
-            href={`/${lng}`} 
+          <Link
+            href={`/${lng}`}
             className="flex items-center space-x-2 text-gray-900 hover:text-blue-600 transition-colors"
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-            <span className="text-lg sm:text-xl font-bold">SSHE2025</span>
+            <div className="relative w-[300px] h-[75px] flex items-center justify-start">
+              <Image
+                src="/vi/images/logo.png"
+                alt={lng === 'vi' ? 'Hội nghị khoa học quốc tế' : 'International Conference'}
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Desktop Menu */}
@@ -174,23 +203,23 @@ export default function Header() {
                   className={`
                     flex items-center px-4 py-2 text-sm font-medium rounded-full
                     transition-all duration-200 group
-                    ${pathname.startsWith(item.href) 
-                      ? 'bg-blue-600 text-white' 
+                    ${isActive(item.href)
+                      ? 'bg-blue-600 text-white'
                       : 'text-gray-600 hover:bg-gray-100'}
                   `}
                 >
                   <span className={`
-                    ${pathname.startsWith(item.href) ? '' : 'group-hover:scale-110'}
+                    ${isActive(item.href) ? '' : 'group-hover:scale-110'}
                     transition-transform duration-200
                   `}>
                     {item.icon}
                   </span>
                   <span className="ml-2">{t(item.title)}</span>
                   {item.submenu && (
-                    <svg 
+                    <svg
                       className="w-4 h-4 ml-1 transition-transform group-hover:rotate-180"
-                      fill="none" 
-                      stroke="currentColor" 
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -198,101 +227,126 @@ export default function Header() {
                   )}
                 </Link>
 
-                {/* Desktop Submenu */}
+                {/* Submenu */}
                 {item.submenu && (
-                  <div className="absolute top-full left-0 mt-2 w-64 py-2 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                    {item.submenu.map((subItem, subIndex) => (
-                      <Link
-                        key={subIndex}
-                        href={subItem.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-blue-600"
-                      >
-                        {t(subItem.title)}
-                      </Link>
-                    ))}
+                  <div className="absolute top-full left-0 mt-1 w-64 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top scale-95 group-hover:scale-100">
+                    <div className="py-2">
+                      {item.submenu.map((subItem, subIndex) => (
+                        <Link
+                          key={subIndex}
+                          href={subItem.href}
+                          className={`
+                            block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100
+                            ${pathname === subItem.href ? 'bg-gray-100' : ''}
+                          `}
+                        >
+                          {t(subItem.title)}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
             ))}
-            <div className="ml-4 pl-4 border-l border-gray-200">
-              <LanguageSwitcher />
-            </div>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher lng={lng} />
           </nav>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="block lg:!hidden p-2 rounded-full text-gray-600 hover:bg-gray-100 focus:outline-none"
+            className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none"
           >
-            <svg 
-              className={`w-6 h-6 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d={isMobileMenuOpen 
-                  ? "M6 18L18 6M6 6l12 12" 
-                  : "M4 6h16M4 12h16M4 18h16"
-                } 
-              />
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              )}
             </svg>
           </button>
         </div>
 
         {/* Mobile Menu */}
-        <div 
-          className={`
-            lg:hidden fixed inset-x-0 top-16 sm:top-20 bg-white/80 backdrop-blur-md
-            transition-all duration-300 ease-in-out
-            ${isMobileMenuOpen 
-              ? 'opacity-100 visible translate-y-0' 
-              : 'opacity-0 invisible -translate-y-10'}
-          `}
-        >
-          <div className="max-h-[calc(100vh-5rem)] overflow-y-auto">
-            <div className="bg-white shadow-xl p-4 space-y-4 m-4 rounded-2xl">
+        <div className={`
+          lg:hidden fixed inset-0 z-50 bg-white transform transition-transform duration-300
+          ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
+        `}>
+          <div className="container mx-auto px-4 py-6">
+            <div className="flex items-center justify-between mb-8">
+              <Link
+                href={`/${lng}`}
+                className="flex items-center space-x-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <div className="relative w-32 h-24">
+                  <Image
+                    src="/vi/images/logo.png"
+                    alt={lng === 'vi' ? 'Hội nghị khoa học quốc tế' : 'International Conference'}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </Link>
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <nav className="space-y-1">
               {menuItems.map((item, index) => (
                 <div key={index}>
                   <Link
                     href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
                     className={`
-                      flex items-center justify-between w-full p-3 rounded-xl text-sm font-medium
-                      transition-all duration-200
-                      ${pathname.startsWith(item.href) 
-                        ? 'bg-blue-600 text-white' 
-                        : 'text-gray-600 hover:bg-gray-100'}
+                      flex items-center px-4 py-3 text-base font-medium rounded-lg
+                      ${isActive(item.href)
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-900 hover:bg-gray-100'}
                     `}
+                    onClick={() => !item.submenu && setIsMobileMenuOpen(false)}
                   >
-                    <div className="flex items-center">
-                      {item.icon}
-                      <span className="ml-3">{t(item.title)}</span>
-                    </div>
+                    <span className="mr-3">{item.icon}</span>
+                    <span>{t(item.title)}</span>
                     {item.submenu && (
-                      <svg 
-                        className="w-4 h-4"
-                        fill="none" 
-                        stroke="currentColor" 
+                      <svg
+                        className={`
+                          ml-auto w-5 h-5 transition-transform duration-200
+                          ${openSubmenu === index ? 'rotate-180' : ''}
+                        `}
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
+                        onClick={(e) => handleSubmenuClick(index, e)}
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                       </svg>
                     )}
                   </Link>
-                  
+
                   {/* Mobile Submenu */}
                   {item.submenu && (
-                    <div className="mt-2 ml-8 space-y-2">
+                    <div className={`
+                      mt-1 pl-12 space-y-1 transition-all duration-200
+                      ${openSubmenu === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}
+                    `}>
                       {item.submenu.map((subItem, subIndex) => (
                         <Link
                           key={subIndex}
                           href={subItem.href}
+                          className={`
+                            block py-2 px-4 text-sm rounded-lg
+                            ${pathname === subItem.href
+                              ? 'text-blue-600 bg-blue-50'
+                              : 'text-gray-600 hover:bg-gray-50'}
+                          `}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="block p-2 text-sm text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-50"
                         >
                           {t(subItem.title)}
                         </Link>
@@ -301,10 +355,12 @@ export default function Header() {
                   )}
                 </div>
               ))}
-              <div className="pt-4 mt-4 border-t border-gray-100">
-                <LanguageSwitcher />
+
+              {/* Mobile Language Switcher */}
+              <div className="px-4 py-3">
+                <LanguageSwitcher lng={lng} />
               </div>
-            </div>
+            </nav>
           </div>
         </div>
       </div>
