@@ -5,30 +5,35 @@ import axiosInstance from './axios';
  * @param {Object} params
  * @param {number} params.page - Page number
  * @param {number} params.pageSize - Items per page
- * @param {string} params.locale - Language locale
  * @param {string} params.search - Search term
+ * @param {string} params.danhmuc - Category filter
+ * @param {string} params.locale - Language (vi/en)
  * @returns {Promise<Object>}
  */
 export const getNewsList = async ({
   page = 1,
   pageSize = 10,
-  locale = 'vi',
   search = '',
+  danhmuc = '',
+  locale = 'vi',
 }) => {
   const params = {
     'pagination[page]': page,
     'pagination[pageSize]': pageSize,
-    locale,
     'filters[title][$containsi]': search,
-    'sort': 'publishedAt:desc',
+    'sort': ['updatedAt:desc', 'ngay_dang:desc', 'publishedAt:desc'],
     'populate': '*'
   };
+
+  if (danhmuc) {
+    params['filters[danhmuc][$eq]'] = danhmuc;
+  }
 
   try {
     const response = await axiosInstance.get('/news', { params });
     return {
-      data: response.data,
-      meta: response.meta
+      data: response?.data,
+      meta: response?.meta
     };
   } catch (error) {
     console.error('Error fetching news:', error);
@@ -39,14 +44,13 @@ export const getNewsList = async ({
 /**
  * Get news detail by ID
  * @param {number} id - News ID
- * @param {string} locale - Language locale
+ * @param {string} locale - Language (vi/en)
  * @returns {Promise<Object>}
  */
 export const getNewsById = async (id, locale = 'vi') => {
   try {
     const response = await axiosInstance.get(`/news/${id}`, {
       params: { 
-        locale,
         'populate': '*'
       },
     });

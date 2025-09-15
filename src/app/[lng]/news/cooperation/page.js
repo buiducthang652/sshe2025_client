@@ -4,14 +4,20 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { buildImageUrl } from '../../../../config/constants'
+import { useNews } from '../../../../hooks/useNews'
+import NewsNavigation from '@/components/NewsNavigation'
 
 export default function CooperationPage({ params: { lng } }) {
   const pathname = usePathname()
   const [translations, setTranslations] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-  const [news, setNews] = useState([])
-  const [category, setCategory] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const { news, pagination, loading } = useNews({
+    pageSize: 12,
+    page,
+    danhmuc: 'hoptacquocte'
+  })
 
   useEffect(() => {
     async function loadTranslations() {
@@ -29,36 +35,6 @@ export default function CooperationPage({ params: { lng } }) {
     loadTranslations()
   }, [lng])
 
-  useEffect(() => {
-    async function fetchCooperationNews() {
-      try {
-        setLoading(true)
-        const response = await fetch('/api/categories/wv09u0dokpwnftpbkgurqrto')
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch cooperation news')
-        }
-        
-        const result = await response.json()
-        const categoryData = result.data
-        
-        // Filter news by locale
-        const filteredNews = categoryData.tin_tucs?.filter(item => item.locale === lng) || []
-        
-        setCategory(categoryData)
-        setNews(filteredNews)
-      } catch (err) {
-        console.error('Error fetching cooperation news:', err)
-        setNews([])
-        setCategory(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchCooperationNews()
-  }, [lng])
-
   const t = (key) => {
     if (!translations) return key
     const keys = key.split('.')
@@ -74,7 +50,7 @@ export default function CooperationPage({ params: { lng } }) {
       <div className="container mx-auto px-4 py-8">
         <div className="animate-pulse space-y-8">
           <div className="flex gap-4 mb-8">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="h-10 w-24 bg-gray-200 rounded-full"></div>
             ))}
           </div>
@@ -91,44 +67,13 @@ export default function CooperationPage({ params: { lng } }) {
       <div className="container mx-auto px-4">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {category?.name || t('news.categories.cooperation')}
+            {t('news.categories.cooperation')}
           </h1>
-          <div className="flex gap-4 flex-wrap">
-            <Link 
-              href={`/${lng}/news`}
-              className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition-colors"
-            >
-              {t('news.all')}
-            </Link>
-            <Link
-              href={`/${lng}/news/cooperation`}
-              className="px-4 py-2 rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors"
-            >
-              {t('news.categories.cooperation')}
-            </Link>
-            <Link
-              href={`/${lng}/news/training`}
-              className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-purple-700 hover:text-white transition-colors"
-            >
-              {t('news.categories.training')}
-            </Link>
-            <Link
-              href={`/${lng}/news/projects`}
-              className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-orange-700 hover:text-white transition-colors"
-            >
-              {t('news.categories.projects')}
-            </Link>
-            <Link
-              href={`/${lng}/news/networks`}
-              className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-red-700 hover:text-white transition-colors"
-            >
-              {t('news.categories.networks')}
-            </Link>
-          </div>
+          <NewsNavigation lng={lng} t={t} currentCategory="cooperation" />
         </div>
 
         <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4">
-          {news.map((item) => (
+          {news?.map((item) => (
             <article 
               key={item.id}
               className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
@@ -137,7 +82,7 @@ export default function CooperationPage({ params: { lng } }) {
                 <div className="relative h-40 rounded-t-lg overflow-hidden">
                   {item.thumbnail?.url ? (
                     <Image
-                      src={`https://sshe2025.hnue.edu.vn/v2${item.thumbnail.url}`}
+                      src={buildImageUrl(item.thumbnail.url)}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -153,7 +98,7 @@ export default function CooperationPage({ params: { lng } }) {
                   )}
                   <div className="absolute top-4 left-4">
                     <span className="inline-block bg-green-600 text-white text-sm px-3 py-1 rounded-full">
-                      {category?.name || t('news.categories.cooperation')}
+                      {t('news.categories.cooperation')}
                     </span>
                   </div>
                 </div>
@@ -165,7 +110,7 @@ export default function CooperationPage({ params: { lng } }) {
                     {item.description}
                   </p>
                   <time className="text-sm text-gray-500">
-                    {new Date(item.updatedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(item.ngay_dang || item.updatedAt || item.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'

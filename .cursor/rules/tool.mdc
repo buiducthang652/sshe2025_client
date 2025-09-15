@@ -1,0 +1,17 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+<use_mcp_tool>
+  <server_name>interactive-feedback-mcp</server_name>
+  <tool_name>interactive_feedback</tool_name>
+  <arguments>
+    {
+      "project_directory": "D:/projects/FE/sshe2025_client",
+      "summary": "I've implemented the changes you requested and refactored the main module."
+    }
+  </arguments>
+
+
+</use_mcp_tool>

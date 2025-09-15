@@ -1,5 +1,7 @@
 {
   "menu": {
+    "home": "TRANG CHỦ",
+    "about": "GIỚI THIỆU",
     "news": "TIN TỨC",
     "news_items": {
       "cooperation_info": "Thông tin hợp tác đối ngoại",
@@ -16,11 +18,14 @@
     "library": "THƯ VIỆN",
     "library_items": {
       "documents": "Tài liệu Toạ đàm/hội thảo",
-      "photos": "Album ảnh Toạ đàm/hội thảo"
-    }
+      "photos": "Album ảnh Toạ đàm/hội thảo",
+      "all": "Tất cả"
+    },
+    "categories": "Danh mục"
   },
   "footer": {
-    "conference_name": "Hội nghị khoa học quốc tế về Khoa học Xã hội, Nhân văn và Giáo dục lần thứ 2",
+    "conference_name": "Hội thảo Khoa học Quốc tế",
+    "conference_description": "Khoa học xã hội, nhân văn và giáo dục trong bối cảnh chuyển đổi số",
     "quick_links": "Liên kết nhanh",
     "contact": "Thông tin liên hệ",
     "address": "Địa chỉ",
@@ -30,28 +35,31 @@
     "email": "Email",
     "follow_us": "Theo dõi chúng tôi",
     "copyright": "© 2025 Trung tâm Công nghệ thông tin - Trường Đại học Sư Phạm Hà Nội",
-    "organized_by": "Đơn vị tổ chức",
-    "hanoi_university": "Trường Đại học Sư Phạm Hà Nội",
+    "organized_by": "Chủ trì tổ chức",
+    "hanoi_university": "Trường Đại học Sư phạm Hà Nội",
+    "publisher": "Đơn vị tổ chức: Nhà xuất bản Đại học Sư phạm",
     "subscribe": "Đăng ký nhận tin",
     "subscribe_desc": "Cập nhật tin tức và sự kiện mới nhất",
     "subscribe_button": "Đăng ký",
     "email_placeholder": "Nhập email của bạn"
   },
   "welcome": "Chào mừng đến với SSHE2025",
-  "description": "Hội nghị khoa học quốc tế về Khoa học Xã hội, Nhân văn và Giáo dục lần thứ 2",
+  "description": "Khoa học xã hội, nhân văn và giáo dục trong bối cảnh chuyển đổi số",
   "change_language": "Thay đổi ngôn ngữ",
   "breadcrumb": {
     "home": "Trang chủ",
-    "news": "Tin tức"
+    "news": "Tin tức",
+    "publications": "Hợp tác xuất bản"
   },
   "news": {
-    "latest": "Tin tức mới nhất",
+    "latest": "Tin tức sự kiện",
     "view_all": "Xem tất cả",
     "all": "Tất cả",
     "all_news": "Tất cả tin tức",
     "related": "Tin tức liên quan",
+    "related_articles": "Bài viết liên quan",
     "read_more": "Xem thêm",
-    "description": "Hội nghị khoa học quốc tế về Khoa học Xã hội, Nhân văn và Giáo dục lần thứ 2",
+    "description": "Khoa học xã hội, nhân văn và giáo dục trong bối cảnh chuyển đổi số",
     "no_articles": "Không có bài viết nào",
     "no_search_results": "Không tìm thấy kết quả nào",
     "search_placeholder": "Tìm kiếm tin tức...",
@@ -77,12 +85,146 @@
       "training": "Chương trình đào tạo"
     }
   },
+  "videos": {
+    "title": "VIDEO THUYẾT TRÌNH",
+    "subtitle": "Bộ sưu tập video thuyết trình từ các nhà nghiên cứu",
+    "description": "Lựa chọn thông tin video theo lĩnh vực và tác giả",
+    "showing": "Đang hiển thị",
+    "showing_results": "Đang hiển thị kết quả",
+    "videos": "video",
+    "year": "Năm",
+    "watch_now": "Xem ngay",
+    "no_videos": "Không có video nào",
+    "try_different_filter": "Thử chọn bộ lọc khác để tìm video phù hợp",
+    "view_details": "Xem chi tiết",
+    "clear_filters": "Xóa bộ lọc",
+    "no_results": "Không có video nào",
+    "try_different_filters": "Thử chọn bộ lọc khác để tìm video phù hợp",
+    "error": "Đã xảy ra lỗi khi tải video",
+    "filter": {
+      "year": "Lọc theo Năm",
+      "school": "Lọc theo Trường"
+    },
+    "years": {
+      "all": "Tất cả các năm",
+      "2025": "Năm 2025",
+      "2024": "Năm 2024",
+      "2023": "Năm 2023",
+      "2022": "Năm 2022",
+      "2021": "Năm 2021",
+      "2020": "Năm 2020",
+      "2019": "Năm 2019",
+      "2018": "Năm 2018"
+    },
+    "schools": {
+      "all": "Tất cả các trường",
+      "hnue": "Trường Đại học Sư phạm Hà Nội",
+      "dshphn": "Trường Đại học Sư phạm Hà Nội",
+      "dsp": "Trường khác",
+      "others": "Trường khác"
+    }
+  },
+  "publications": {
+    "title": "HỢP TÁC XUẤT BẢN",
+    "subtitle": "Tổng hợp các ấn phẩm và bài viết hợp tác của Trường Đại học Sư phạm với quốc tế",
+    "domestic_title": "ẤN PHẨM XUẤT BẢN TẠI VIỆT NAM",
+    "domestic_subtitle": "Các ấn phẩm khoa học được xuất bản tại các nhà xuất bản và tạp chí uy tín trong nước",
+    "international_title": "ẤN PHẨM XUẤT BẢN QUỐC TẾ",
+    "international_subtitle": "Các công trình nghiên cứu được công bố trên các tạp chí quốc tế có uy tín",
+    "view_details": "Xem chi tiết",
+    "back_to_list": "Quay lại danh sách",
+    "partner_organizations": "Logo các đơn vị Quốc tế đã hợp tác",
+    "partner_description": "Những đối tác quốc tế đã cùng chúng tôi thực hiện các dự án xuất bản",
+    "error": "Đã xảy ra lỗi khi tải ấn phẩm",
+    "not_found": "Không tìm thấy ấn phẩm",
+    "no_publications": "Không có ấn phẩm nào",
+    "try_different_filters": "Thử chọn bộ lọc khác để tìm ấn phẩm phù hợp",
+    "pagination": {
+      "previous": "Trước",
+      "next": "Tiếp",
+      "page": "Trang",
+      "of": "trên"
+    },
+    "categories": {
+      "all": "Tất cả ấn phẩm",
+      "domestic": "Ấn phẩm trong nước",
+      "international": "Ấn phẩm quốc tế",
+      "books": "Sách chuyên khảo",
+      "journals": "Bài báo khoa học",
+      "proceedings": "Kỷ yếu hội nghị"
+    },
+    "detail": {
+      "info": "Thông tin ấn phẩm",
+      "category": "Danh mục",
+      "title": "Chi tiết ấn phẩm",
+      "authors": "Tác giả",
+      "published_in": "Xuất bản tại",
+      "publication_date": "Ngày xuất bản",
+      "abstract": "Tóm tắt",
+      "keywords": "Từ khóa",
+      "doi": "DOI",
+      "isbn": "ISBN",
+      "publisher": "Nhà xuất bản",
+      "pages": "Số trang",
+      "language": "Ngôn ngữ",
+      "download": "Tải xuống",
+      "cite": "Trích dẫn",
+      "share": "Chia sẻ",
+      "related_publications": "Ấn phẩm liên quan",
+      "browse_categories": "Duyệt theo danh mục",
+      "last_updated": "Cập nhật lần cuối"
+    }
+  },
   "contact": {
     "address": {
       "street": "136 Xuân Thủy, Cầu Giấy",
       "city": "Hà Nội, Việt Nam"
     },
-    "phone": "+84 24 3754 7823",
+    "phone": "+84 559 325 815",
     "email": "sshe2025@hnue.edu.vn"
+  },
+  "library": {
+    "title": "Thư viện tài liệu",
+    "subtitle": "Kho lưu trữ tài liệu và hình ảnh của các sự kiện hội nghị",
+    "categories": {
+      "all": "Tất cả",
+      "documents": "Tài liệu",
+      "photos": "Album ảnh"
+    },
+    "download": "Tải xuống",
+    "downloadAll": "Tải xuống tất cả",
+    "downloading": "Đang tải xuống...",
+    "viewAlbum": "Xem album",
+    "backToAlbums": "Quay lại danh sách album",
+    "albumNotFound": "Album không tồn tại",
+    "noPhotos": "Chưa có album ảnh nào",
+    "noPhotosDesc": "Hiện tại chưa có album ảnh nào trong danh mục này",
+    "fileName": "Tên file",
+    "fileType": "Loại file",
+    "photoCount": "ảnh",
+    "fileSize": "Kích thước",
+    "pagination": {
+      "previous": "Trước",
+      "next": "Tiếp",
+      "page": "Trang",
+      "of": "trên"
+    },
+    "noDocuments": "Không có tài liệu",
+    "noDocumentsDesc": "Chưa có tài liệu nào trong thư viện"
+  },
+  "common": {
+    "previous": "Trước",
+    "next": "Tiếp",
+    "page": "Trang",
+    "of": "trên",
+    "loading": "Đang tải...",
+    "read_more": "Xem thêm",
+    "home": "Trang chủ",
+    "about": "Giới thiệu",
+    "no_content": "Chưa có nội dung"
+  },
+  "home": {
+    "about_title": "Giới thiệu",
+    "about_description": "Khoa học xã hội, nhân văn và giáo dục trong bối cảnh chuyển đổi số"
   }
 } 

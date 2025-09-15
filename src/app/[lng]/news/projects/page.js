@@ -3,15 +3,22 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { buildImageUrl } from '../../../../config/constants'
+import { useNews } from '@/hooks/useNews'
+import { NEWS_MENU_CONFIG } from '@/config/constants'
 
 export default function ProjectsPage({ params: { lng } }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [translations, setTranslations] = useState({})
   const [isLoading, setIsLoading] = useState(true)
-  const [news, setNews] = useState([])
-  const [category, setCategory] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const { news, pagination, loading } = useNews({
+    pageSize: 12,
+    page,
+    danhmuc: 'duannghiencuu'
+  })
 
   useEffect(() => {
     async function loadTranslations() {
@@ -30,34 +37,11 @@ export default function ProjectsPage({ params: { lng } }) {
   }, [lng])
 
   useEffect(() => {
-    async function fetchProjectsNews() {
-      try {
-        setLoading(true)
-        const response = await fetch('/api/categories/lc4ak5eqa34q8rc2ws9fw87m')
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects news')
-        }
-        
-        const result = await response.json()
-        const categoryData = result.data
-        
-        // Filter news by locale
-        const filteredNews = categoryData.tin_tucs?.filter(item => item.locale === lng) || []
-        
-        setCategory(categoryData)
-        setNews(filteredNews)
-      } catch (err) {
-        console.error('Error fetching projects news:', err)
-        setNews([])
-        setCategory(null)
-      } finally {
-        setLoading(false)
-      }
+    // Nếu trang này bị ẩn trong cấu hình, chuyển hướng về trang news chính
+    if (!NEWS_MENU_CONFIG.menuItems.projects) {
+      router.replace(`/${lng}/news`)
     }
-
-    fetchProjectsNews()
-  }, [lng])
+  }, [router, lng])
 
   const t = (key) => {
     if (!translations) return key
@@ -91,10 +75,10 @@ export default function ProjectsPage({ params: { lng } }) {
       <div className="container mx-auto px-4">
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {category?.name || t('news.categories.projects')}
+            {news.length > 0 ? news[0].categoryName || t('news.categories.projects') : t('news.categories.projects')}
           </h1>
           <div className="flex gap-4 flex-wrap">
-            <Link 
+            <Link
               href={`/${lng}/news`}
               className="px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-blue-700 hover:text-white transition-colors"
             >
@@ -129,7 +113,7 @@ export default function ProjectsPage({ params: { lng } }) {
 
         <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4">
           {news.map((item) => (
-            <article 
+            <article
               key={item.id}
               className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
             >
@@ -137,7 +121,7 @@ export default function ProjectsPage({ params: { lng } }) {
                 <div className="relative h-40 rounded-t-lg overflow-hidden">
                   {item.thumbnail?.url ? (
                     <Image
-                      src={`https://sshe2025.hnue.edu.vn/v2${item.thumbnail.url}`}
+                      src={buildImageUrl(item.thumbnail.url)}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -153,7 +137,7 @@ export default function ProjectsPage({ params: { lng } }) {
                   )}
                   <div className="absolute top-4 left-4">
                     <span className="inline-block bg-orange-600 text-white text-sm px-3 py-1 rounded-full">
-                      {category?.name || t('news.categories.projects')}
+                      {t('news.categories.projects')}
                     </span>
                   </div>
                 </div>
@@ -165,7 +149,7 @@ export default function ProjectsPage({ params: { lng } }) {
                     {item.description}
                   </p>
                   <time className="text-sm text-gray-500">
-                    {new Date(item.updatedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
+                    {new Date(item.ngay_dang || item.updatedAt || item.publishedAt).toLocaleDateString(lng === 'vi' ? 'vi-VN' : 'en-US', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'
